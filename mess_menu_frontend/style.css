@@ -1,0 +1,88 @@
+/* CSS STYLES - MAKE IT LOOK DARK & COOL */
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: sans-serif;
+  text-align: center;
+  padding: 20px;
+  border: 2px solid cyan;
+  border-radius: 20px;
+  max-width: 400px;
+  /* display: flex;
+  flex-direction: column; */
+  justify-self: center;
+  height: 90vh;
+}
+
+h1 {
+  color: #bb86fc;
+}
+
+.timer-box {
+  background: #333;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px auto;
+  max-width: 400px;
+  border: 2px solid #03dac6;
+}
+
+.timer-text {
+  font-size: 2em;
+  font-weight: bold;
+  font-family: monospace;
+}
+
+.status-msg {
+  color: #03dac6;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+  min-height: 60vh;
+
+
+}
+
+.meal-card {
+  background: #1e1e1e;
+  padding: 15px;
+  border-radius: 10px;
+  border-left: 5px solid #1af0df;
+  text-align: left;
+  flex-grow: 1;
+}
+
+.meal-card.active {
+  border-left-color: #cf6679;
+  background: #2c1b1b;
+}
+
+/* Highlight active meal */
+
+.meal-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #bb86fc;
+}
+
+.meal-food {
+  font-size: 1.1em;
+  margin: 5px 0;
+}
+
+.meal-cal {
+  font-size: 0.8em;
+  color: #888;
+  font-style: italic;
+}
+
+#loading {
+  color: yellow;
+}
