@@ -1,6 +1,6 @@
 /* CSS STYLES - MAKE IT LOOK DARK & COOL */
 body {
-  background-color: #121212;
+  background-color: black;
   color: #e0e0e0;
   font-family: sans-serif;
   text-align: center;
@@ -16,6 +16,18 @@ body {
 
 h1 {
   color: #bb86fc;
+}
+
+.dateweek {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#day-display,
+#week-display {
+  border: 2px solid beige;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .timer-box {
@@ -54,7 +66,7 @@ h1 {
   background: #1e1e1e;
   padding: 15px;
   border-radius: 10px;
-  border-left: 5px solid #1af0df;
+  border-left: 5px solid #72e620;
   text-align: left;
   flex-grow: 1;
 }

@@ -11,7 +11,13 @@
 <body>
 
   <h1>Hostel Mess Menu</h1>
-  <h3 id="day-display">Loading Date...</h3>
+  <div class="dateweek">
+    <div id="day">
+      <select name="day" id="day-display"></select>
+    </div>
+    <div id="week-display">Week</div>
+
+  </div>
 
   <div class="timer-box">
     <div id="status-msg" class="status-msg">Loading Timer...</div>
@@ -23,22 +29,22 @@
   <div id="menu-container" class="menu-container" style="display:none;">
 
     <div class="meal-card" id="card-breakfast">
-      <div class="meal-title">Breakfast (07:15 - 10:00)</div>
+      <div class="meal-title">Breakfast (07:15 - 09:00)</div>
       <div class="meal-food" id="menu-breakfast">--</div>
     </div>
 
     <div class="meal-card" id="card-lunch">
-      <div class="meal-title">Lunch (13:00 - 15:00)</div>
+      <div class="meal-title">Lunch (12:30 - 14:30)</div>
       <div class="meal-food" id="menu-lunch">--</div>
     </div>
     <div class="meal-card" id="card-snack">
-      <div class="meal-title">Snacks (17:00 - 19:00)</div>
+      <div class="meal-title">Snacks (17:30 - 19:00)</div>
       <div class="meal-food" id="menu-snack">--</div>
 
     </div>
 
     <div class="meal-card" id="card-dinner">
-      <div class="meal-title">Dinner (20:00 - 22:00)</div>
+      <div class="meal-title">Dinner (20:30 - 22:00)</div>
       <div class="meal-food" id="menu-dinner">--</div>
 
     </div>

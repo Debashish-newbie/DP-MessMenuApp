@@ -18,18 +18,29 @@ async function loadApp() {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const now = new Date();
   const todayName = days[now.getDay()];
+  let week = Math.ceil(new Date().getDate() / 7);
+  const day = document.getElementById('day-display');
+  for (let d of days) {
+    let da = document.createElement("option");
+    da.className = "day-display"
+    da.value = d;
+    da.innerText = d;
+    day.append(da)
+  }
+  day.value = todayName;
 
   // Update Day Header
-  const dayDisplay = document.getElementById('day-display');
-  if (dayDisplay) dayDisplay.innerText = todayName;
+
+
 
   const loadingEl = document.getElementById('loading');
 
   // --- START NEW SERVER LOGIC ---
   try {
     // 1. Ask the Waiter (Backend) for data
-    const response = await fetch('http://localhost:3000/api/menu');
+    const response = await fetch('http://10.204.31.94:3000/api/menu');
     const data = await response.json(); // 'data' is born here!
+    console.log(data);
 
     // 2. Check for errors
     if (data.error) throw new Error(data.error);
@@ -41,6 +52,7 @@ async function loadApp() {
         if (el) el.innerText = text || '--';
       };
 
+      document.querySelector("#week-display").innerText = `Week ${week}`
       setText('menu-breakfast', data.breakfast);
       setText('menu-lunch', data.lunch);
       setText('menu-snack', data.Snacks);
