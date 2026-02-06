@@ -53,7 +53,7 @@ async function fetchMenuForDay(day) {
   const loadingEl = document.getElementById('loading');
 
   try {
-    const response = await fetch(`http://10.204.31.94:3000/api/menu?day=${day}`);
+    const response = await fetch(`https://dp-messmenuapp.onrender.com/api/menu?day=${day}`);
     const data = await response.json();
     console.log(data);
 
