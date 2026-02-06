@@ -161,6 +161,40 @@ h1 {
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
+.meal-card::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.meal-card.active::before {
+  content: "Current";
+  color: #1a0f15;
+  background: linear-gradient(120deg, #ff9cc5 0%, #ff4d8d 100%);
+  box-shadow: 0 6px 16px rgba(255, 77, 141, 0.35);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.meal-card.upcoming::before {
+  content: "Upcoming";
+  color: #061626;
+  background: linear-gradient(120deg, #9ff6ff 0%, #00e5ff 100%);
+  box-shadow: 0 6px 16px rgba(0, 229, 255, 0.28);
+  opacity: 0.95;
+  transform: translateY(0);
+}
+
 .meal-card::after {
   content: "";
   position: absolute;
@@ -201,6 +235,45 @@ h1 {
   font-size: 1rem;
   line-height: 1.5;
   color: #dce7ff;
+}
+
+.meal-text {
+  display: inline;
+}
+
+.skeleton-line {
+  display: none;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(210, 224, 255, 0.12) 0%, rgba(210, 224, 255, 0.32) 45%, rgba(210, 224, 255, 0.12) 100%);
+  animation: skeleton-pulse 1.2s ease-in-out infinite;
+}
+
+.skeleton-line + .skeleton-line {
+  margin-top: 8px;
+}
+
+.w-45 { width: 45%; }
+.w-50 { width: 50%; }
+.w-55 { width: 55%; }
+.w-60 { width: 60%; }
+.w-65 { width: 65%; }
+.w-70 { width: 70%; }
+.w-75 { width: 75%; }
+.w-80 { width: 80%; }
+
+.menu-container.is-loading .meal-text {
+  display: none;
+}
+
+.menu-container.is-loading .skeleton-line {
+  display: block;
+}
+
+@keyframes skeleton-pulse {
+  0% { opacity: 0.35; }
+  50% { opacity: 0.85; }
+  100% { opacity: 0.35; }
 }
 
 .meal-cal {

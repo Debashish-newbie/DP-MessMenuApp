@@ -51,6 +51,17 @@ async function loadApp() {
 // Fetch menu for selected day from backend
 async function fetchMenuForDay(day) {
   const loadingEl = document.getElementById('loading');
+  const container = document.getElementById('menu-container');
+
+  if (loadingEl) {
+    loadingEl.innerText = "Fetching menu from Supabase...";
+    loadingEl.style.color = "#ffd65c";
+    loadingEl.style.display = "block";
+  }
+  if (container) {
+    container.classList.add('is-loading');
+    container.style.display = "flex";
+  }
 
   try {
     const response = await fetch(`https://dp-messmenuapp.onrender.com/api/menu?day=${day}`);
@@ -62,7 +73,13 @@ async function fetchMenuForDay(day) {
     if (data) {
       let setText = (id, text) => {
         let el = document.getElementById(id);
-        if (el) el.innerText = text || '--';
+        if (!el) return;
+        let textEl = el.querySelector('.meal-text');
+        if (textEl) {
+          textEl.textContent = text || '--';
+        } else {
+          el.textContent = text || '--';
+        }
       };
 
       const week = Math.ceil(new Date().getDate() / 7);
@@ -72,10 +89,12 @@ async function fetchMenuForDay(day) {
       setText('menu-snack', data.Snacks);
       setText('menu-dinner', data.dinner);
 
-      // Show the menu
+      //Show the menu
       if (loadingEl) loadingEl.style.display = 'none';
-      const container = document.getElementById('menu-container');
-      if (container) container.style.display = 'flex';
+      if (container) {
+        container.classList.remove('is-loading');
+        container.style.display = 'flex';
+      }
     }
 
   } catch (err) {
@@ -84,6 +103,7 @@ async function fetchMenuForDay(day) {
       loadingEl.innerText = "Error: Is the backend server running?";
       loadingEl.style.color = "red";
     }
+    if (container) container.classList.remove('is-loading');
   }
 }
 
@@ -109,6 +129,7 @@ function startTimer() {
 
     // Reset active highlighting
     document.querySelectorAll('.meal-card').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.meal-card').forEach(el => el.classList.remove('upcoming'));
 
     // BLOCK TIMER IF NOT CURRENT DAY
     if (selectedDay !== currentDay) {
@@ -134,34 +155,41 @@ function startTimer() {
     if (now < bStart) {
       status = "Breakfast starts in:";
       targetTime = bStart;
+      document.getElementById('card-breakfast')?.classList.add('upcoming');
     } else if (now < bEnd) {
       status = "Breakfast ends in:";
       targetTime = bEnd;
       document.getElementById('card-breakfast')?.classList.add('active');
       console.log(targetTime);
+      document.getElementById('card-lunch')?.classList.add('upcoming');
     }
     // 2. Lunch
     else if (now < lStart) {
       status = "Lunch starts in:";
       targetTime = lStart;
+      document.getElementById('card-lunch')?.classList.add('upcoming');
     } else if (now < lEnd) {
       status = "Lunch ends in:";
       targetTime = lEnd;
       document.getElementById('card-lunch')?.classList.add('active');
+      document.getElementById('card-snack')?.classList.add('upcoming');
     }
     // 3. Snacks
     else if (now < sStart) {
       status = "Snacks starts in:";
       targetTime = sStart;
+      document.getElementById('card-snack')?.classList.add('upcoming');
     } else if (now < sEnd) {
       status = "Snacks ends in:";
       targetTime = sEnd;
-      document.getElementById('card-snacks')?.classList.add('active');
+      document.getElementById('card-snack')?.classList.add('active');
+      document.getElementById('card-dinner')?.classList.add('upcoming');
     }
     // 4. Dinner
     else if (now < dStart) {
       status = "Dinner starts in:";
       targetTime = dStart;
+      document.getElementById('card-dinner')?.classList.add('upcoming');
     } else if (now < dEnd) {
       status = "Dinner ends in:";
       targetTime = dEnd;
