@@ -20,10 +20,11 @@ app.get('/api/menu', async (req, res) => {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const { day } = req.query;
   let todayName = days[new Date().getDay()]; //Get day return 0-6 Sun-Sat
-  let dkey = day || days[new Date().getDay];
+  let dkey = day || days[new Date().getDay()];
   let week = Math.floor(new Date().getDate() % 7);
+  todayName = day || todayName;
 
-  if (week == 1 || 3) {
+  if (week == 1 || week == 3) {
     if (todayName === "Sunday") {
       todayName = "Sundayo"
     }

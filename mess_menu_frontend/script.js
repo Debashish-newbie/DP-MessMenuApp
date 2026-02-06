@@ -11,15 +11,19 @@ const times = {
   dinner: { start: [20, 30], end: [22, 0] }
 };
 
+let selectedDay = null; // Track selected day
+let currentDay = null;  // Track current day
+
 // =========================================================
 // 2. MAIN APP LOGIC
 // =========================================================
 async function loadApp() {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const now = new Date();
-  const todayName = days[now.getDay()];
+  currentDay = days[now.getDay()];
   let week = Math.ceil(new Date().getDate() / 7);
   const day = document.getElementById('day-display');
+
   for (let d of days) {
     let da = document.createElement("option");
     da.className = "day-display"
@@ -27,37 +31,46 @@ async function loadApp() {
     da.innerText = d;
     day.append(da)
   }
-  day.value = todayName;
+  day.value = currentDay;
+  selectedDay = currentDay;
 
-  // Update Day Header
+  // Add event listener for day selection
+  day.addEventListener('change', async (e) => {
+    selectedDay = e.target.value;
+    console.log(`Day selected: ${selectedDay}`);
+    await fetchMenuForDay(selectedDay);
+  });
 
+  // Load menu for current day on startup
+  await fetchMenuForDay(currentDay);
 
+  // Start Timer (only updates if current day is selected)
+  startTimer();
+}
 
+// Fetch menu for selected day from backend
+async function fetchMenuForDay(day) {
   const loadingEl = document.getElementById('loading');
 
-  // --- START NEW SERVER LOGIC ---
   try {
-    // 1. Ask the Waiter (Backend) for data
-    const response = await fetch('http://10.204.31.94:3000/api/menu');
-    const data = await response.json(); // 'data' is born here!
+    const response = await fetch(`http://10.204.31.94:3000/api/menu?day=${day}`);
+    const data = await response.json();
     console.log(data);
 
-    // 2. Check for errors
     if (data.error) throw new Error(data.error);
 
-    // 3. UPDATE UI (MUST BE DONE HERE inside the 'try' block)
     if (data) {
-      const setText = (id, text) => {
-        const el = document.getElementById(id);
+      let setText = (id, text) => {
+        let el = document.getElementById(id);
         if (el) el.innerText = text || '--';
       };
 
+      const week = Math.ceil(new Date().getDate() / 7);
       document.querySelector("#week-display").innerText = `Week ${week}`
       setText('menu-breakfast', data.breakfast);
       setText('menu-lunch', data.lunch);
       setText('menu-snack', data.Snacks);
       setText('menu-dinner', data.dinner);
-
 
       // Show the menu
       if (loadingEl) loadingEl.style.display = 'none';
@@ -72,14 +85,10 @@ async function loadApp() {
       loadingEl.style.color = "red";
     }
   }
-  // --- END SERVER LOGIC ---
-
-  // Start Timer (This is fine outside because it doesn't need 'data')
-  startTimer();
 }
-// Start the Clock
-startTimer();
 
+// Start the application
+loadApp();
 
 // =========================================================
 // 3. TIMER & COUNTDOWN LOGIC
@@ -100,6 +109,15 @@ function startTimer() {
 
     // Reset active highlighting
     document.querySelectorAll('.meal-card').forEach(el => el.classList.remove('active'));
+
+    // BLOCK TIMER IF NOT CURRENT DAY
+    if (selectedDay !== currentDay) {
+      const statusEl = document.getElementById('status-msg');
+      const timerEl = document.getElementById('timer');
+      if (statusEl) statusEl.innerText = "⏸️ Select today to view live timer";
+      if (timerEl) timerEl.innerText = "--:--:--";
+      return; // Exit early, don't process timer
+    }
 
     // Define all time boundaries for today
     const bStart = getTarget(...times.breakfast.start);
@@ -180,6 +198,3 @@ function startTimer() {
 
   }, 1000);
 }
-
-// Start the application
-loadApp();
