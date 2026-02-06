@@ -19,30 +19,35 @@ app.get('/api/menu', async (req, res) => {
   // Get today's day name (Server time)
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const { day } = req.query;
-  let todayName = days[new Date().getDay()]; //Get day return 0-6 Sun-Sat
-  let dkey = day || days[new Date().getDay()];
-  let week = Math.floor(new Date().getDate() % 7);
-  todayName = day || todayName;
+  const now = new Date();
+  const week = Math.ceil(now.getDate() / 7);
+  const todayName = days[now.getDay()]; // 0-6 Sun-Sat
 
-  if (week == 1 || week == 3) {
-    if (todayName === "Sunday") {
-      todayName = "Sundayo"
-    }
-    else if (todayName === "Wednesday") {
-      todayName = "Wednesdayo"
+  // Simple day selection: use query param if provided, otherwise use today
+  const requestedDay = day || todayName;
+
+  // Apply alternate menu naming for odd weeks (1st, 3rd, 5th...)
+  let menuDay = requestedDay;
+  if (week % 2 === 1) {
+    if (menuDay === "Sunday") {
+      menuDay = "Sundayo";
     }
   }
-  console.log(`Frontend asked for menu. Fetching for: ${todayName}`);
+
+  console.log(`Frontend asked for menu. Fetching for: ${menuDay} (Week ${week})`);
 
   // Fetch from Supabase (Server does the work now)
   const { data, error } = await supabase
     .from('menu')
     .select('*')
-    .eq('day_name', todayName)
+    .eq('day_name', menuDay)
     .single();
 
   if (error) {
     return res.status(500).json({ error: error.message });
+  }
+  if (!data) {
+    return res.status(404).json({ error: "Menu not found" });
   }
 
   // Send the food (data) back to the frontend
