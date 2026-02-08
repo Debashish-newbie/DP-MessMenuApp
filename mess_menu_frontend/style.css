@@ -249,18 +249,41 @@ h1 {
   animation: skeleton-pulse 1.2s ease-in-out infinite;
 }
 
-.skeleton-line + .skeleton-line {
+.skeleton-line+.skeleton-line {
   margin-top: 8px;
 }
 
-.w-45 { width: 45%; }
-.w-50 { width: 50%; }
-.w-55 { width: 55%; }
-.w-60 { width: 60%; }
-.w-65 { width: 65%; }
-.w-70 { width: 70%; }
-.w-75 { width: 75%; }
-.w-80 { width: 80%; }
+.w-45 {
+  width: 45%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.w-55 {
+  width: 55%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.w-65 {
+  width: 65%;
+}
+
+.w-70 {
+  width: 70%;
+}
+
+.w-75 {
+  width: 75%;
+}
+
+.w-80 {
+  width: 80%;
+}
 
 .menu-container.is-loading .meal-text {
   display: none;
@@ -271,9 +294,17 @@ h1 {
 }
 
 @keyframes skeleton-pulse {
-  0% { opacity: 0.35; }
-  50% { opacity: 0.85; }
-  100% { opacity: 0.35; }
+  0% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.85;
+  }
+
+  100% {
+    opacity: 0.35;
+  }
 }
 
 .meal-cal {

@@ -28,7 +28,7 @@ app.get('/api/menu', async (req, res) => {
 
   // Apply alternate menu naming for odd weeks (1st, 3rd, 5th...)
   let menuDay = requestedDay;
-  if (week % 2 === 1) {
+  if (week % 2 === 0) {
     if (menuDay === "Sunday") {
       menuDay = "Sundayo";
     }
